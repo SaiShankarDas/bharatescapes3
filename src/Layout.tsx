@@ -6,14 +6,16 @@ import FloatingWhatsApp from './components/FloatingWhatsApp';
 
 const Layout: React.FC = () => {
   return (
-    <div className="relative">
-      <Header />
-      <main>
-        <Outlet />
-      </main>
+    <>
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-grow">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
       <FloatingWhatsApp />
-      <Footer />
-    </div>
+    </>
   );
 };
 
