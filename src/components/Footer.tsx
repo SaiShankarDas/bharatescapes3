@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Instagram, Mail, Phone } from 'lucide-react';
+import WhatsAppIcon from './common/WhatsAppIcon';
 
 const Footer: React.FC = () => {
   return (
@@ -32,17 +34,17 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Join Our Tribe</h3>
             <div className="flex justify-center md:justify-start space-x-6 items-center">
-              <a href="https://www.instagram.com/bharatescapes/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110" aria-label="Visit our Instagram">
-                <img src="https://cdn-icons-png.flaticon.com/512/717/717392.png" alt="Instagram" className="h-6 w-6" />
+              <a href="https://www.instagram.com/bharatescapes/" target="_blank" rel="noopener noreferrer" className="text-theme-text-dark/80 hover:text-theme-accent-orange-end transition-all duration-300 hover:scale-110" aria-label="Visit our Instagram">
+                <Instagram className="h-6 w-6" />
               </a>
-              <a href="https://wa.me/917976789334?text=Hi%20Bharatescapes%2C%0AI'd%20like%20to%20book%20a%20tour%20with%20Bharatescapes.%0ACan%20you%20share%20the%20best%20options%3F" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110" aria-label="Chat on WhatsApp">
-                <img src="https://cdn-icons-png.flaticon.com/512/1384/1384023.png" alt="WhatsApp" className="h-6 w-6" />
+              <a href="https://wa.me/917976789334?text=Hi%20Bharatescapes%2C%0AI'd%20like%20to%20book%20a%20tour%20with%20Bharatescapes.%0ACan%20you%20share%20the%20best%20options%3F" target="_blank" rel="noopener noreferrer" className="text-theme-text-dark/80 hover:text-theme-accent-orange-end transition-all duration-300 hover:scale-110" aria-label="Chat on WhatsApp">
+                <WhatsAppIcon className="h-6 w-6" />
               </a>
-              <a href="mailto:bharatescape@gmail.com" className="transition-transform duration-300 hover:scale-110" aria-label="Email Bharatescapes">
-                <img src="https://cdn-icons-png.flaticon.com/512/646/646094.png" alt="Email Bharatescapes" className="h-6 w-6" />
+              <a href="mailto:bharatescape@gmail.com" className="text-theme-text-dark/80 hover:text-theme-accent-orange-end transition-all duration-300 hover:scale-110" aria-label="Email Bharatescapes">
+                <Mail className="h-6 w-6" />
               </a>
-              <a href="tel:+917976789334" className="transition-transform duration-300 hover:scale-110" aria-label="Call Bharatescapes">
-                <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Call Bharatescapes" className="h-6 w-6" />
+              <a href="tel:+917976789334" className="text-theme-text-dark/80 hover:text-theme-accent-orange-end transition-all duration-300 hover:scale-110" aria-label="Call Bharatescapes">
+                <Phone className="h-6 w-6" />
               </a>
             </div>
           </div>
