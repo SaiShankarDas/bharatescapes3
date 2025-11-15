@@ -1,18 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Instagram, Mail, Phone } from 'lucide-react';
 import WhatsAppIcon from './common/WhatsAppIcon';
 
 const Footer: React.FC = () => {
   return (
-    <motion.footer 
+    <footer 
       id="footer" 
       className="bg-theme-light-bg text-theme-text-dark"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       <div className="container mx-auto px-6 pt-12">
         <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
@@ -54,7 +49,7 @@ const Footer: React.FC = () => {
           <p className="text-sm text-theme-text-dark/70">&copy; {new Date().getFullYear()} Bharatescapes | All Rights Reserved</p>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 };
 
