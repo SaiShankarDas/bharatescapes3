@@ -9,7 +9,7 @@ const TravellersCounter: React.FC = () => {
   useEffect(() => {
     if (isInView && countRef.current) {
       const node = countRef.current;
-      const controls = animate(0, 2000, {
+      const controls = animate(0, 10000, {
         duration: 2.5,
         ease: "easeOut",
         onUpdate(value) {
