@@ -10,7 +10,6 @@ import Loader from './components/common/Loader';
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ToursPage = lazy(() => import('./pages/ToursPage'));
 const StaysPage = lazy(() => import('./pages/StaysPage'));
-const WhereaboutsPage = lazy(() => import('./pages/WhereaboutsPage'));
 const EventsPage = lazy(() => import('./pages/EventsPage'));
 const TourRegistrationPage = lazy(() => import('./pages/TourRegistrationPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
@@ -28,7 +27,6 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="tours" element={<ToursPage />} />
               <Route path="stays" element={<StaysPage />} />
-              <Route path="stays/whereabouts" element={<WhereaboutsPage />} />
               <Route path="events" element={<EventsPage />} />
               <Route path="tour-registration" element={<TourRegistrationPage />} />
               <Route path="contact" element={<ContactPage />} />

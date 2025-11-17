@@ -1,7 +1,6 @@
 import React from 'react';
 import PageTransition from '../components/PageTransition';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 const StaysPage: React.FC = () => {
@@ -29,7 +28,12 @@ const StaysPage: React.FC = () => {
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-              <Link to="/stays/whereabouts" className="absolute inset-0 p-8 flex flex-col justify-between z-10">
+              <a 
+                href="https://www.instagram.com/whereabouthostel" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="absolute inset-0 p-8 flex flex-col justify-between z-10"
+              >
                 <div>
                   <h2 className="font-playfair text-3xl font-bold text-text-light">Whereabout</h2>
                   <p className="text-accent-gold font-semibold">Our Featured Stay</p>
@@ -39,7 +43,7 @@ const StaysPage: React.FC = () => {
                     Explore Details <ArrowRight className="ml-2 h-5 w-5" />
                   </span>
                 </div>
-              </Link>
+              </a>
             </motion.div>
 
             {/* More Stays Coming Soon Card */}

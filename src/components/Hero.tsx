@@ -16,7 +16,7 @@ const Hero: React.FC = () => {
         muted
         playsInline
         className="absolute top-0 left-0 w-full h-full object-cover -z-10"
-        poster="https://placehold.co/1920x1080/0A1D37/FFF8E7/png?text=Loading+Video..."
+        poster="https://img-wrapper.vercel.app/image?url=https://placehold.co/1920x1080/0A1D37/FFF8E7/png?text=Loading+Video..."
       >
         <source src="/videos/herobg.mp4" type="video/mp4" />
         Your browser does not support the video tag.

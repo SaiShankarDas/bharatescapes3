@@ -3,7 +3,7 @@ import PageTransition from '../components/PageTransition';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bike, MapPin, Clock, BadgeCheck, ShieldAlert, HardHat, CloudSun, CircleDollarSign,
-  Briefcase, UserCheck, Camera, HeartPulse, LoaderCircle, CheckCircle, AlertTriangle
+  Briefcase, UserCheck, Camera, HeartPulse, LoaderCircle, CheckCircle, AlertTriangle, FileText
 } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import PhoneInput from 'react-phone-number-input';
@@ -19,6 +19,7 @@ const terms = [
   { icon: HardHat, text: 'Safety Gear – Helmets must be worn at all times while riding the scooter. This is compulsory as per government safety rule.' },
   { icon: CloudSun, text: 'Weather Conditions – Sunrise/Sunset visibility depends on nature. No refund if visibility is affected due to clouds, fog, rain, etc.' },
   { icon: CircleDollarSign, text: 'Refund Policy – Bookings once confirmed are non-refundable. Rescheduling depends on availability.' },
+  { icon: FileText, text: 'Participants are advised to have their own travel and health insurance. Bharatescapes will not provide insurance coverage for injuries, accidents, or any personal health problems.' },
   { icon: Briefcase, text: 'Personal Belongings – Bharatescapes is not responsible for loss/damage of mobile phones, wallets, camera accessories or any personal items.' },
   { icon: UserCheck, text: 'Behavior & Discipline – Kindly follow the tour leader’s instructions. Any misbehavior, reckless riding or unsafe actions may lead to removal from the tour.' },
   { icon: Camera, text: 'Photography / Videography – Photos & videos captured during the tour may be used for promotional purposes by Bharatescapes.' },
