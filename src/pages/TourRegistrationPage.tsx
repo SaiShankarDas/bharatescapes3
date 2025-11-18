@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PageTransition from '../components/PageTransition';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bike, MapPin, Clock, BadgeCheck, ShieldAlert, HardHat, CloudSun, CircleDollarSign,
-  Briefcase, UserCheck, Camera, HeartPulse, LoaderCircle, CheckCircle, AlertTriangle, FileText
+  Briefcase, UserCheck, Camera, HeartPulse, LoaderCircle, CheckCircle, AlertTriangle, FileText, Upload, X
 } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import PhoneInput from 'react-phone-number-input';
@@ -27,6 +27,7 @@ const terms = [
 ];
 
 type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
+type CaptureContext = 'license' | 'idProof';
 
 const TourRegistrationPage: React.FC = () => {
   const [isTermsExpanded, setIsTermsExpanded] = useState(false);
@@ -50,6 +51,18 @@ const TourRegistrationPage: React.FC = () => {
   const [allergies, setAllergies] = useState('');
   const [bloodGroup, setBloodGroup] = useState('');
 
+  // Pillion ID proof state
+  const [idProofType, setIdProofType] = useState('');
+  const [otherIdProofName, setOtherIdProofName] = useState('');
+  const [idProofFile, setIdProofFile] = useState<File | null>(null);
+
+  // Camera state
+  const [showCamera, setShowCamera] = useState(false);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const [captureContext, setCaptureContext] = useState<CaptureContext | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const SCRIPT_URL = import.meta.env.VITE_TOUR_REGISTRATION_SCRIPT_URL;
 
   useEffect(() => {
@@ -65,24 +78,83 @@ const TourRegistrationPage: React.FC = () => {
     setEmail(''); setCityCountry(''); setEmergencyName(''); setEmergencyNumber(undefined);
     setHasLicense(''); setRiderType(''); setLicensePhoto(null); setMedicalInfo('');
     setAllergies(''); setBloodGroup(''); setIsTermsAgreed(false);
+    setIdProofType(''); setOtherIdProofName(''); setIdProofFile(null);
   };
+
+  const handleOpenCamera = async (context: CaptureContext) => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert("Camera API is not supported by your browser.");
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      setCameraStream(stream);
+      setCaptureContext(context);
+      setShowCamera(true);
+    } catch (err) {
+      console.error("Error accessing camera: ", err);
+      alert("Could not access the camera. Please check permissions and try again.");
+    }
+  };
+
+  const handleCloseCamera = () => {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(track => track.stop());
+    }
+    setCameraStream(null);
+    setShowCamera(false);
+    setCaptureContext(null);
+  };
+
+  const handleCapture = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+      if (context) {
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        canvas.toBlob(blob => {
+          if (blob) {
+            const fileName = captureContext === 'license' ? 'license_capture.jpg' : 'id_proof_capture.jpg';
+            const file = new File([blob], fileName, { type: 'image/jpeg' });
+            if (captureContext === 'license') {
+              setLicensePhoto(file);
+            } else {
+              setIdProofFile(file);
+            }
+          }
+        }, 'image/jpeg');
+      }
+      handleCloseCamera();
+    }
+  };
+
+  useEffect(() => {
+    if (showCamera && cameraStream && videoRef.current) {
+      videoRef.current.srcObject = cameraStream;
+    }
+  }, [showCamera, cameraStream]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFeedbackMessage('');
+
     if (!isTermsAgreed) {
       setFeedbackMessage('You must agree to the terms and conditions to register.');
       setSubmissionStatus('error');
       return;
     }
-    if (!SCRIPT_URL || SCRIPT_URL.includes("YOUR_TOUR_REGISTRATION_GOOGLE_APPS_SCRIPT_URL")) {
+
+    if (!SCRIPT_URL || SCRIPT_URL.includes("YOUR_TOUR_REGISTRATION_SCRIPT_URL")) {
       setFeedbackMessage('The form is not configured. Please contact support.');
       setSubmissionStatus('error');
       return;
     }
 
     setSubmissionStatus('submitting');
-    setFeedbackMessage('');
-
+    
     const formData = new FormData();
     formData.append('timestamp', new Date().toISOString());
     formData.append('tourType', tourType);
@@ -98,31 +170,69 @@ const TourRegistrationPage: React.FC = () => {
     formData.append('medicalInfo', medicalInfo);
     formData.append('allergies', allergies);
     formData.append('bloodGroup', bloodGroup);
-    if (licensePhoto) {
-      formData.append('licensePhoto', licensePhoto);
+    
+    let fileToUpload: File | null = null;
+    let finalIdProofType: string = '';
+
+    if (isRider) {
+      fileToUpload = licensePhoto;
+      finalIdProofType = 'Driving License';
+    } else if (riderType === 'Sitting behind') {
+      fileToUpload = idProofFile;
+      finalIdProofType = idProofType === 'Others' ? otherIdProofName : idProofType;
+    }
+    
+    formData.append('idProofType', finalIdProofType);
+
+    if (fileToUpload) {
+      formData.append('file', fileToUpload);
+    } else if (riderType === 'Riding a scooter' || riderType === 'Sitting behind') {
+      setFeedbackMessage(isRider ? 'Please upload your driving license photo.' : 'Please upload your ID proof.');
+      setSubmissionStatus('error');
+      return;
     }
 
     try {
-      await fetch(SCRIPT_URL, { method: 'POST', body: formData });
-      setSubmissionStatus('success');
-      setFeedbackMessage('🎉 Thank you for registering! Our team will get in touch soon with your tour details.');
-      resetForm();
-    } catch (error) {
-      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+      const response = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+      
+      const contentType = response.headers.get("content-type");
+      if (!response.ok || !contentType || !contentType.includes("application/json")) {
+          const errorText = await response.text();
+          throw new Error(`Server returned an invalid response. This often means the script URL is wrong or not deployed correctly. Status: ${response.status}.`);
+      }
+
+      const result = await response.json();
+      if (result.result === 'success') {
         setSubmissionStatus('success');
         setFeedbackMessage('🎉 Thank you for registering! Our team will get in touch soon with your tour details.');
         resetForm();
       } else {
-        console.error('An unexpected error occurred:', error);
-        setSubmissionStatus('error');
-        setFeedbackMessage('Something went wrong. Please try again later.');
+        throw new Error(result.error || 'The script reported an unknown error.');
       }
+    } catch (error) {
+      let userMessage = 'An unknown error occurred. Please try again later.';
+      if (error instanceof Error) {
+          if (error.message.includes("Sheet with name") && error.message.includes("not found")) {
+              userMessage = "Submission failed. Please ensure your Google Sheet tab is named exactly 'Tour Registrations'.";
+          } else if (error.message.includes("invalid response")) {
+              userMessage = "Submission failed. The form endpoint is not configured correctly. Please check that the script is deployed and the URL is correct.";
+          } else {
+              userMessage = `Submission failed. Please check your script configuration and try again.`;
+          }
+          console.error('An unexpected error occurred during form submission:', error.message);
+      } else {
+          console.error('An unexpected error occurred during form submission:', error);
+      }
+      
+      setSubmissionStatus('error');
+      setFeedbackMessage(userMessage);
     }
   };
 
   const formSectionClasses = "bg-white/5 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-lg border border-black/10";
   const inputClasses = "mt-1 w-full p-3 bg-white/5 border border-black/10 rounded-md text-warm-text placeholder:text-warm-text/50 focus:outline-none focus:ring-2 focus:ring-warm-gold-light min-h-[48px]";
   const labelClasses = "text-sm font-bold text-warm-text/80";
+  const fileButtonClasses = "w-full flex items-center justify-center p-3 bg-white border border-black/10 rounded-md text-warm-text font-semibold hover:bg-black/5 transition-colors cursor-pointer";
 
   return (
     <PageTransition>
@@ -254,10 +364,60 @@ const TourRegistrationPage: React.FC = () => {
                     </label>
                   </div>
                 </div>
-                <div>
-                  <label className={labelClasses}>Upload Driving Licence Photo{isRider ? '*' : ' (Optional)'}</label>
-                  <input type="file" accept="image/*" required={isRider} onChange={e => setLicensePhoto(e.target.files ? e.target.files[0] : null)} className={`${inputClasses} p-0 file:p-3 file:mr-4 file:border-0 file:bg-white/10 file:font-semibold file:text-warm-text/80 hover:file:bg-white/20`} />
-                </div>
+                
+                <AnimatePresence mode="wait">
+                  {isRider ? (
+                    <motion.div key="rider-upload" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="space-y-2">
+                      <label className={labelClasses}>Upload Driving Licence Photo*</label>
+                      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <label htmlFor="license-photo-file" className={fileButtonClasses}>
+                          <Upload className="mr-2 h-5 w-5" />
+                          Choose file
+                        </label>
+                        <input id="license-photo-file" type="file" accept="image/*" className="hidden" onChange={e => setLicensePhoto(e.target.files ? e.target.files[0] : null)} />
+                        <button type="button" onClick={() => handleOpenCamera('license')} className={fileButtonClasses}>
+                          <Camera className="mr-2 h-5 w-5" />
+                          Capture with camera
+                        </button>
+                      </div>
+                      {licensePhoto && <p className="text-sm mt-2 text-green-700">File selected: {licensePhoto.name}</p>}
+                    </motion.div>
+                  ) : riderType === 'Sitting behind' ? (
+                    <motion.div key="pillion-upload" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="space-y-4">
+                      <div>
+                        <label className={labelClasses}>ID Proof Type*</label>
+                        <select required value={idProofType} onChange={e => setIdProofType(e.target.value)} className={inputClasses}>
+                          <option value="" disabled>Select ID type</option>
+                          <option value="Aadhaar Card">Aadhaar Card</option>
+                          <option value="Passport">Passport</option>
+                          <option value="Driving License">Driving License</option>
+                          <option value="Others">Other</option>
+                        </select>
+                      </div>
+                      {idProofType === 'Others' && (
+                        <div>
+                          <label className={labelClasses}>Please specify ID type*</label>
+                          <input type="text" required value={otherIdProofName} onChange={e => setOtherIdProofName(e.target.value)} className={inputClasses} placeholder="e.g., Voter ID Card" />
+                        </div>
+                      )}
+                      <div>
+                        <label className={labelClasses}>Upload ID Proof*</label>
+                        <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <label htmlFor="id-proof-file" className={fileButtonClasses}>
+                            <Upload className="mr-2 h-5 w-5" />
+                            Choose file
+                          </label>
+                          <input id="id-proof-file" type="file" accept="image/*" className="hidden" onChange={e => setIdProofFile(e.target.files ? e.target.files[0] : null)} />
+                          <button type="button" onClick={() => handleOpenCamera('idProof')} className={fileButtonClasses}>
+                            <Camera className="mr-2 h-5 w-5" />
+                            Capture with camera
+                          </button>
+                        </div>
+                        {idProofFile && <p className="text-sm mt-2 text-green-700">File selected: {idProofFile.name}</p>}
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
               </div>
             </fieldset>
 
@@ -279,7 +439,6 @@ const TourRegistrationPage: React.FC = () => {
               </div>
             </fieldset>
 
-            {/* Agreement & Submission */}
             <div className="space-y-6">
               <label className="flex items-center gap-3 p-4 bg-white/5 border border-black/10 rounded-lg cursor-pointer hover:bg-white/10">
                 <input type="checkbox" required checked={isTermsAgreed} onChange={e => setIsTermsAgreed(e.target.checked)} className="h-5 w-5 rounded accent-warm-gold-dark" />
@@ -301,6 +460,38 @@ const TourRegistrationPage: React.FC = () => {
             </div>
           </form>
         </div>
+
+        <AnimatePresence>
+          {showCamera && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-warm-bg p-4 rounded-lg shadow-xl w-full max-w-lg"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-playfair text-xl font-bold text-warm-text">Capture ID</h3>
+                  <button onClick={handleCloseCamera} className="text-warm-text/70 hover:text-warm-text">
+                    <X size={24} />
+                  </button>
+                </div>
+                <video ref={videoRef} autoPlay playsInline className="w-full rounded-md aspect-video object-cover bg-black"></video>
+                <div className="mt-4 flex justify-center gap-4">
+                  <button type="button" onClick={handleCapture} className="bg-warm-gold-dark text-white font-bold py-2 px-6 rounded-lg hover:bg-warm-gold-light transition-colors">
+                    Capture
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <canvas ref={canvasRef} className="hidden"></canvas>
       </div>
     </PageTransition>
   );

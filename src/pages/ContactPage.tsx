@@ -25,7 +25,7 @@ const ContactPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!SCRIPT_URL || SCRIPT_URL.includes("YOUR_GOOGLE_APPS_SCRIPT_URL")) {
+    if (!SCRIPT_URL || SCRIPT_URL.includes("YOUR_GOOGLE_SHEET_SCRIPT_URL")) {
       setFeedbackMessage('The form is not configured. Please follow the setup instructions.');
       setSubmissionStatus('error');
       return;
@@ -41,9 +41,10 @@ const ContactPage: React.FC = () => {
       : '';
 
     const formData = new FormData();
+    formData.append('formType', 'contact'); // Identify the form for the script
     formData.append('timestamp', new Date().toISOString());
     formData.append('name', name);
-    formData.append('whatsapp', `'${whatsapp || ''}`);
+    formData.append('whatsapp', whatsapp || '');
     formData.append('email', email);
     formData.append('people', people);
     formData.append('dates', formattedDateRange);
@@ -56,33 +57,26 @@ const ContactPage: React.FC = () => {
       });
 
       if (response.ok) {
-        setSubmissionStatus('success');
-        setFeedbackMessage('Thank you! Your message has been sent successfully.');
-        setName('');
-        setWhatsapp(undefined);
-        setEmail('');
-        setPeople('');
-        setDateRange([null, null]);
-        setMessage('');
+        const result = await response.json();
+        if (result.result === 'success') {
+          setSubmissionStatus('success');
+          setFeedbackMessage('Thank you! Your message has been sent successfully.');
+          setName('');
+          setWhatsapp(undefined);
+          setEmail('');
+          setPeople('');
+          setDateRange([null, null]);
+          setMessage('');
+        } else {
+          throw new Error(result.error || 'The script reported an error.');
+        }
       } else {
         throw new Error(`Server responded with status: ${response.status}`);
       }
     } catch (error) {
-      if (error instanceof TypeError && error.message === 'Failed to fetch') {
-        console.log('Submission successful. The "Failed to fetch" error is an expected side-effect of the Google Script redirect and can be ignored.');
-        setSubmissionStatus('success');
-        setFeedbackMessage('Thank you! Your message has been sent successfully.');
-        setName('');
-        setWhatsapp(undefined);
-        setEmail('');
-        setPeople('');
-        setDateRange([null, null]);
-        setMessage('');
-      } else {
-        console.error('An unexpected error occurred during form submission:', error);
-        setSubmissionStatus('error');
-        setFeedbackMessage('Something went wrong. Please try again later.');
-      }
+      console.error('An unexpected error occurred during form submission:', error);
+      setSubmissionStatus('error');
+      setFeedbackMessage('Something went wrong. Please try again later.');
     }
   };
 
