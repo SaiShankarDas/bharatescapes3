@@ -20,13 +20,22 @@ const ContactPage: React.FC = () => {
   const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>('idle');
   const [feedbackMessage, setFeedbackMessage] = useState('');
 
-  const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SHEET_SCRIPT_URL;
+  const SCRIPT_URL = import.meta.env.VITE_GOOGLE_APP_SCRIPT_URL;
+
+  const resetForm = () => {
+      setName('');
+      setWhatsapp(undefined);
+      setEmail('');
+      setPeople('');
+      setDateRange([null, null]);
+      setMessage('');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!SCRIPT_URL || SCRIPT_URL.includes("YOUR_GOOGLE_SHEET_SCRIPT_URL")) {
-      setFeedbackMessage('The form is not configured. Please follow the setup instructions.');
+    if (!SCRIPT_URL || SCRIPT_URL.includes("h***")) {
+      setFeedbackMessage('The form is not configured. Please contact support.');
       setSubmissionStatus('error');
       return;
     }
@@ -40,43 +49,33 @@ const ContactPage: React.FC = () => {
       ? startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
       : '';
 
-    const formData = new FormData();
-    formData.append('formType', 'contact'); // Identify the form for the script
-    formData.append('timestamp', new Date().toISOString());
-    formData.append('name', name);
-    formData.append('whatsapp', whatsapp || '');
-    formData.append('email', email);
-    formData.append('people', people);
-    formData.append('dates', formattedDateRange);
-    formData.append('message', message);
+    const submissionData = {
+        formType: 'contact',
+        name,
+        whatsapp: whatsapp || '',
+        email,
+        people,
+        dates: formattedDateRange,
+        message,
+    };
 
     try {
-      const response = await fetch(SCRIPT_URL, {
+      // "Fire-and-forget" request using 'no-cors' mode.
+      // We cannot read the response, so we optimistically assume success.
+      await fetch(SCRIPT_URL, {
         method: 'POST',
-        body: formData,
+        mode: 'no-cors',
+        body: JSON.stringify(submissionData),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.result === 'success') {
-          setSubmissionStatus('success');
-          setFeedbackMessage('Thank you! Your message has been sent successfully.');
-          setName('');
-          setWhatsapp(undefined);
-          setEmail('');
-          setPeople('');
-          setDateRange([null, null]);
-          setMessage('');
-        } else {
-          throw new Error(result.error || 'The script reported an error.');
-        }
-      } else {
-        throw new Error(`Server responded with status: ${response.status}`);
-      }
-    } catch (error) {
+      setSubmissionStatus('success');
+      setFeedbackMessage('Thank you! Your message has been sent successfully.');
+      resetForm();
+
+    } catch (error: any) {
       console.error('An unexpected error occurred during form submission:', error);
       setSubmissionStatus('error');
-      setFeedbackMessage('Something went wrong. Please try again later.');
+      setFeedbackMessage('A network error occurred. Please check your connection and try again.');
     }
   };
 

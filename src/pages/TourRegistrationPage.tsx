@@ -29,6 +29,14 @@ const terms = [
 type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
 type CaptureContext = 'license' | 'idProof';
 
+const fileToBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = error => reject(error);
+  });
+
 const TourRegistrationPage: React.FC = () => {
   const [isTermsExpanded, setIsTermsExpanded] = useState(false);
   const [isTermsAgreed, setIsTermsAgreed] = useState(false);
@@ -63,7 +71,7 @@ const TourRegistrationPage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const SCRIPT_URL = import.meta.env.VITE_TOUR_REGISTRATION_SCRIPT_URL;
+  const SCRIPT_URL = import.meta.env.VITE_GOOGLE_APP_SCRIPT_URL;
 
   useEffect(() => {
     if (hasLicense === 'No') {
@@ -147,7 +155,7 @@ const TourRegistrationPage: React.FC = () => {
       return;
     }
 
-    if (!SCRIPT_URL || SCRIPT_URL.includes("YOUR_TOUR_REGISTRATION_SCRIPT_URL")) {
+    if (!SCRIPT_URL || SCRIPT_URL.includes("h***")) {
       setFeedbackMessage('The form is not configured. Please contact support.');
       setSubmissionStatus('error');
       return;
@@ -155,77 +163,73 @@ const TourRegistrationPage: React.FC = () => {
 
     setSubmissionStatus('submitting');
     
-    const formData = new FormData();
-    formData.append('timestamp', new Date().toISOString());
-    formData.append('tourType', tourType);
-    formData.append('tourDate', tourDate ? tourDate.toLocaleDateString('en-CA') : '');
-    formData.append('fullName', fullName);
-    formData.append('mobileNumber', mobileNumber || '');
-    formData.append('email', email);
-    formData.append('cityCountry', cityCountry);
-    formData.append('emergencyName', emergencyName);
-    formData.append('emergencyNumber', emergencyNumber || '');
-    formData.append('hasLicense', hasLicense);
-    formData.append('riderType', riderType);
-    formData.append('medicalInfo', medicalInfo);
-    formData.append('allergies', allergies);
-    formData.append('bloodGroup', bloodGroup);
-    
-    let fileToUpload: File | null = null;
-    let finalIdProofType: string = '';
-
-    if (isRider) {
-      fileToUpload = licensePhoto;
-      finalIdProofType = 'Driving License';
-    } else if (riderType === 'Sitting behind') {
-      fileToUpload = idProofFile;
-      finalIdProofType = idProofType === 'Others' ? otherIdProofName : idProofType;
-    }
-    
-    formData.append('idProofType', finalIdProofType);
-
-    if (fileToUpload) {
-      formData.append('file', fileToUpload);
-    } else if (riderType === 'Riding a scooter' || riderType === 'Sitting behind') {
-      setFeedbackMessage(isRider ? 'Please upload your driving license photo.' : 'Please upload your ID proof.');
-      setSubmissionStatus('error');
-      return;
-    }
-
     try {
-      const response = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+      let fileToUpload: File | null = null;
+      let finalIdProofType: string = '';
+
+      if (isRider) {
+        fileToUpload = licensePhoto;
+        finalIdProofType = 'Driving License';
+      } else if (riderType === 'Sitting behind') {
+        fileToUpload = idProofFile;
+        finalIdProofType = idProofType === 'Others' ? otherIdProofName : idProofType;
+      }
       
-      const contentType = response.headers.get("content-type");
-      if (!response.ok || !contentType || !contentType.includes("application/json")) {
-          const errorText = await response.text();
-          throw new Error(`Server returned an invalid response. This often means the script URL is wrong or not deployed correctly. Status: ${response.status}.`);
+      if (!fileToUpload && (isRider || riderType === 'Sitting behind')) {
+          setFeedbackMessage(isRider ? 'Please upload your driving license photo.' : 'Please upload your ID proof.');
+          setSubmissionStatus('error');
+          return;
       }
 
-      const result = await response.json();
-      if (result.result === 'success') {
-        setSubmissionStatus('success');
-        setFeedbackMessage('🎉 Thank you for registering! Our team will get in touch soon with your tour details.');
-        resetForm();
-      } else {
-        throw new Error(result.error || 'The script reported an unknown error.');
+      let base64File = '';
+      let mimeType = '';
+      let fileName = '';
+
+      if (fileToUpload) {
+        const base64String = await fileToBase64(fileToUpload);
+        const parts = base64String.split(';base64,');
+        mimeType = parts[0].split(':')[1];
+        base64File = parts[1];
+        fileName = fileToUpload.name;
       }
-    } catch (error) {
-      let userMessage = 'An unknown error occurred. Please try again later.';
-      if (error instanceof Error) {
-          if (error.message.includes("Sheet with name") && error.message.includes("not found")) {
-              userMessage = "Submission failed. Please ensure your Google Sheet tab is named exactly 'Tour Registrations'.";
-          } else if (error.message.includes("invalid response")) {
-              userMessage = "Submission failed. The form endpoint is not configured correctly. Please check that the script is deployed and the URL is correct.";
-          } else {
-              userMessage = `Submission failed. Please check your script configuration and try again.`;
-          }
-          console.error('An unexpected error occurred during form submission:', error.message);
-      } else {
-          console.error('An unexpected error occurred during form submission:', error);
-      }
-      
+
+      const submissionData = {
+        formType: 'tour-registration',
+        tourType,
+        tourDate: tourDate ? tourDate.toLocaleDateString('en-CA') : '',
+        fullName,
+        mobileNumber: mobileNumber || '',
+        email,
+        cityCountry,
+        emergencyName,
+        emergencyNumber: emergencyNumber || '',
+        hasLicense,
+        riderType,
+        medicalInfo,
+        allergies,
+        bloodGroup,
+        idProofType: finalIdProofType,
+        fileData: base64File,
+        mimeType: mimeType,
+        fileName: fileName,
+      };
+
+      // "Fire-and-forget" request using 'no-cors' mode.
+      // We cannot read the response, so we optimistically assume success.
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify(submissionData),
+      });
+
+      setSubmissionStatus('success');
+      setFeedbackMessage('🎉 Thank you for registering! Your submission has been sent. Our team will get in touch soon.');
+      resetForm();
+
+    } catch (error: any) {
+      console.error('An unexpected error occurred during form submission:', error);
       setSubmissionStatus('error');
-      setFeedbackMessage(userMessage);
+      setFeedbackMessage('A network error occurred. Please check your connection and try again.');
     }
   };
 
