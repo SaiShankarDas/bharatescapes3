@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageTransition from '../components/PageTransition';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bike, MapPin, Clock, BadgeCheck, ShieldAlert, HardHat, CloudSun, CircleDollarSign,
-  Briefcase, UserCheck, Camera, HeartPulse, LoaderCircle, CheckCircle, AlertTriangle, FileText, Upload, X
+  Briefcase, UserCheck, Camera, HeartPulse, LoaderCircle, CheckCircle, AlertTriangle, FileText, Upload
 } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import PhoneInput from 'react-phone-number-input';
@@ -27,7 +27,6 @@ const terms = [
 ];
 
 type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
-type CaptureContext = 'license' | 'idProof';
 
 const fileToBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -64,13 +63,6 @@ const TourRegistrationPage: React.FC = () => {
   const [otherIdProofName, setOtherIdProofName] = useState('');
   const [idProofFile, setIdProofFile] = useState<File | null>(null);
 
-  // Camera state
-  const [showCamera, setShowCamera] = useState(false);
-  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
-  const [captureContext, setCaptureContext] = useState<CaptureContext | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
   const SCRIPT_URL = import.meta.env.VITE_GOOGLE_APP_SCRIPT_URL;
 
   useEffect(() => {
@@ -88,62 +80,6 @@ const TourRegistrationPage: React.FC = () => {
     setAllergies(''); setBloodGroup(''); setIsTermsAgreed(false);
     setIdProofType(''); setOtherIdProofName(''); setIdProofFile(null);
   };
-
-  const handleOpenCamera = async (context: CaptureContext) => {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      alert("Camera API is not supported by your browser.");
-      return;
-    }
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      setCameraStream(stream);
-      setCaptureContext(context);
-      setShowCamera(true);
-    } catch (err) {
-      console.error("Error accessing camera: ", err);
-      alert("Could not access the camera. Please check permissions and try again.");
-    }
-  };
-
-  const handleCloseCamera = () => {
-    if (cameraStream) {
-      cameraStream.getTracks().forEach(track => track.stop());
-    }
-    setCameraStream(null);
-    setShowCamera(false);
-    setCaptureContext(null);
-  };
-
-  const handleCapture = () => {
-    if (videoRef.current && canvasRef.current) {
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const context = canvas.getContext('2d');
-      if (context) {
-        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-        canvas.toBlob(blob => {
-          if (blob) {
-            const fileName = captureContext === 'license' ? 'license_capture.jpg' : 'id_proof_capture.jpg';
-            const file = new File([blob], fileName, { type: 'image/jpeg' });
-            if (captureContext === 'license') {
-              setLicensePhoto(file);
-            } else {
-              setIdProofFile(file);
-            }
-          }
-        }, 'image/jpeg');
-      }
-      handleCloseCamera();
-    }
-  };
-
-  useEffect(() => {
-    if (showCamera && cameraStream && videoRef.current) {
-      videoRef.current.srcObject = cameraStream;
-    }
-  }, [showCamera, cameraStream]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -373,16 +309,12 @@ const TourRegistrationPage: React.FC = () => {
                   {isRider ? (
                     <motion.div key="rider-upload" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="space-y-2">
                       <label className={labelClasses}>Upload Driving Licence Photo*</label>
-                      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="mt-2">
                         <label htmlFor="license-photo-file" className={fileButtonClasses}>
                           <Upload className="mr-2 h-5 w-5" />
                           Choose file
                         </label>
                         <input id="license-photo-file" type="file" accept="image/*" className="hidden" onChange={e => setLicensePhoto(e.target.files ? e.target.files[0] : null)} />
-                        <button type="button" onClick={() => handleOpenCamera('license')} className={fileButtonClasses}>
-                          <Camera className="mr-2 h-5 w-5" />
-                          Capture with camera
-                        </button>
                       </div>
                       {licensePhoto && <p className="text-sm mt-2 text-green-700">File selected: {licensePhoto.name}</p>}
                     </motion.div>
@@ -406,16 +338,12 @@ const TourRegistrationPage: React.FC = () => {
                       )}
                       <div>
                         <label className={labelClasses}>Upload ID Proof*</label>
-                        <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="mt-2">
                           <label htmlFor="id-proof-file" className={fileButtonClasses}>
                             <Upload className="mr-2 h-5 w-5" />
                             Choose file
                           </label>
                           <input id="id-proof-file" type="file" accept="image/*" className="hidden" onChange={e => setIdProofFile(e.target.files ? e.target.files[0] : null)} />
-                          <button type="button" onClick={() => handleOpenCamera('idProof')} className={fileButtonClasses}>
-                            <Camera className="mr-2 h-5 w-5" />
-                            Capture with camera
-                          </button>
                         </div>
                         {idProofFile && <p className="text-sm mt-2 text-green-700">File selected: {idProofFile.name}</p>}
                       </div>
@@ -464,38 +392,6 @@ const TourRegistrationPage: React.FC = () => {
             </div>
           </form>
         </div>
-
-        <AnimatePresence>
-          {showCamera && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4"
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-warm-bg p-4 rounded-lg shadow-xl w-full max-w-lg"
-              >
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-playfair text-xl font-bold text-warm-text">Capture ID</h3>
-                  <button onClick={handleCloseCamera} className="text-warm-text/70 hover:text-warm-text">
-                    <X size={24} />
-                  </button>
-                </div>
-                <video ref={videoRef} autoPlay playsInline className="w-full rounded-md aspect-video object-cover bg-black"></video>
-                <div className="mt-4 flex justify-center gap-4">
-                  <button type="button" onClick={handleCapture} className="bg-warm-gold-dark text-white font-bold py-2 px-6 rounded-lg hover:bg-warm-gold-light transition-colors">
-                    Capture
-                  </button>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <canvas ref={canvasRef} className="hidden"></canvas>
       </div>
     </PageTransition>
   );
