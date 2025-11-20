@@ -23,7 +23,8 @@ const TravellersCounter: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 md:py-28 doodle-bg-overlay flex flex-col items-center justify-center text-center"
+      // Reduced top padding here
+      className="pt-6 pb-20 md:pt-10 md:pb-28 doodle-bg-overlay flex flex-col items-center justify-center text-center"
     >
       <div className="container mx-auto px-6">
         {/* Top Line (Globe + Number) */}

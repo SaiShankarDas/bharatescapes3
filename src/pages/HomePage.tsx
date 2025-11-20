@@ -111,7 +111,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 doodle-bg-overlay">
+      {/* Reduced bottom padding here */}
+      <section className="pt-20 md:pt-28 pb-6 md:pb-10 doodle-bg-overlay">
         <div className="container mx-auto px-6">
             <motion.div 
                 initial={{ opacity: 0, y: 30 }}
