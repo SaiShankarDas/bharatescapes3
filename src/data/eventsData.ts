@@ -41,13 +41,13 @@ export const eventsData = [
   {
     title: 'Movie Night',
     description: 'Relax with classic films and popcorn in a cozy setting.',
-    image: 'https://images.unsplash.com/photo-1517604931442-710c8ed63fe8?q=80&w=800&auto=format&fit=crop',
+    image: 'https://iili.io/f2SdLan.png?q=80&w=800&auto=format&fit=crop',
     icon: Film,
   },
   {
     title: 'Live Screening',
     description: 'Cheer for your favorite teams during live sports screenings.',
-    image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=800&auto=format&fit=crop',
+    image: 'https://iili.io/f28D7jt.jpg?q=80&w=800&auto=format&fit=crop',
     icon: Tv,
   },
 ];
