@@ -9,8 +9,8 @@ const navLinks = [
   { name: 'Stays', to: '/stays' },
   { name: 'Events', to: '/events' },
   { name: 'Gallery', to: '/gallery' },
-  { name: 'Register', to: '/tour-registration' },
-  { name: 'Contact', to: '/contact' },
+  { name: 'Start Your Trip', to: '/tour-registration' },
+  { name: 'Book Now', to: '/contact' },
 ];
 
 const Header: React.FC = () => {
