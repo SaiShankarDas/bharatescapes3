@@ -37,14 +37,15 @@ const TourRoadmapItem: React.FC<TourRoadmapItemProps> = ({ tour, index }) => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <div className="bg-white p-4 md:p-6 rounded-lg shadow-xl border border-black/5">
+          <div className="bg-white p-4 md:p-6 rounded-lg shadow-xl border border-black/5 gpu-accelerated">
             <div className="relative mb-4">
               <div className="w-full rounded-md overflow-hidden shadow-md">
                 <img 
                   src={tour.img} 
                   alt={tour.title} 
-                  className="w-full aspect-[4/3] object-cover transition-transform duration-500 ease-in-out hover:scale-105" 
+                  className="w-full aspect-[4/3] object-cover transition-transform duration-500 ease-in-out hover:scale-105 will-change-transform" 
                   loading="lazy" 
+                  decoding="async"
                 />
               </div>
             </div>

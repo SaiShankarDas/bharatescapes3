@@ -19,7 +19,7 @@ const TourRoadmap: React.FC<TourRoadmapProps> = ({ tours = [] }) => {
       {/* The vertical line */}
       <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-black/10 -translate-x-1/2">
         <motion.div
-          className="w-full h-full bg-gradient-to-b from-accent-pink to-accent-gold origin-top"
+          className="w-full h-full bg-gradient-to-b from-accent-pink to-accent-gold origin-top will-change-transform"
           style={{ scaleY: scrollYProgress }}
         />
       </div>

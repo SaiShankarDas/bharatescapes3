@@ -19,6 +19,9 @@ function App() {
 
   return (
     <>
+      {/* Optimized Fixed Background Layer */}
+      <div className="fixed-bg-layer" />
+      
       <ScrollToTop />
       <AnimatePresence mode="wait">
         <Suspense fallback={<Loader />}>

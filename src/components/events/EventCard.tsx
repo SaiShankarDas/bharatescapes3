@@ -22,13 +22,15 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
   return (
     <motion.div
       variants={cardVariants}
-      className="bg-white/5 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden border border-white/10 group"
+      className="bg-white/5 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden border border-white/10 group gpu-accelerated"
     >
       <div className="relative overflow-hidden"> {/* Added overflow-hidden to contain the zoom effect */}
         <img 
           src={event.image} 
           alt={event.title} 
-          className={`w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110 ${event.imagePosition || 'object-center'}`} 
+          className={`w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform ${event.imagePosition || 'object-center'}`} 
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         <div className="absolute top-4 right-4 bg-black/50 p-2 rounded-full">

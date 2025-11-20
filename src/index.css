@@ -5,8 +5,18 @@
 @tailwind utilities;
 
 body {
-  @apply bg-main-gradient bg-fixed text-text-light font-poppins antialiased;
+  /* Removed bg-fixed and bg-main-gradient from here to improve scroll performance */
+  @apply text-text-light font-poppins antialiased;
   min-height: 100vh;
+  background-color: #0A192F; /* Fallback background color */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* New class for the fixed background to replace body bg-fixed */
+.fixed-bg-layer {
+  @apply fixed inset-0 -z-50 bg-main-gradient;
+  /* This element stays fixed without forcing body repaints */
+  transform: translateZ(0); /* Trigger GPU acceleration */
 }
 
 /* For smooth scrolling on anchor links if needed */
@@ -70,6 +80,16 @@ html {
     @apply absolute inset-0 -z-10 bg-doodle-pattern bg-repeat bg-center bg-scroll md:bg-fixed bg-blend-overlay;
     background-size: 500px auto;
     opacity: 0.12;
+  }
+}
+
+/* Utility for performance */
+@layer utilities {
+  .will-change-transform {
+    will-change: transform;
+  }
+  .gpu-accelerated {
+    transform: translateZ(0);
   }
 }
 
