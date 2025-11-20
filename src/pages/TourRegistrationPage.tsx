@@ -71,6 +71,17 @@ const TourRegistrationPage: React.FC = () => {
     }
   }, [hasLicense]);
 
+  // Auto-dismiss success message after 10 seconds
+  useEffect(() => {
+    if (submissionStatus === 'success') {
+      const timer = setTimeout(() => {
+        setFeedbackMessage('');
+        setSubmissionStatus('idle');
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [submissionStatus]);
+
   const isRider = riderType === 'Riding a scooter';
 
   const resetForm = () => {
@@ -159,7 +170,7 @@ const TourRegistrationPage: React.FC = () => {
       });
 
       setSubmissionStatus('success');
-      setFeedbackMessage('🎉 Thank you for registering! Your submission has been sent. Our team will get in touch soon.');
+      setFeedbackMessage('🎉 Thank you for registering! Your submission has been sent.');
       resetForm();
 
     } catch (error: any) {
@@ -244,7 +255,15 @@ const TourRegistrationPage: React.FC = () => {
                 </div>
                 <div>
                   <label className={labelClasses}>Tour Date*</label>
-                  <DatePicker required selected={tourDate} onChange={(date: Date) => setTourDate(date)} minDate={new Date()} placeholderText="Select a date" className={inputClasses} />
+                  <DatePicker 
+                    required 
+                    selected={tourDate} 
+                    onChange={(date: Date) => setTourDate(date)} 
+                    minDate={new Date()} 
+                    placeholderText="Select a date" 
+                    className={inputClasses}
+                    dateFormat="dd/MM/yyyy"
+                  />
                 </div>
                 <div className="md:col-span-2">
                   <label className={labelClasses}>Full Name*</label>
