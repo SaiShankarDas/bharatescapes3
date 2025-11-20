@@ -204,7 +204,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <section className="pb-20 md:pb-28">
+      {/* Reduced bottom padding for Our Story section */}
+      <section className="pb-8 md:pb-12">
         <div className="container mx-auto px-6">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -223,7 +224,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 doodle-bg-overlay">
+      {/* Reduced top padding for CTA section */}
+      <section className="pt-8 pb-16 md:pt-12 md:pb-20 doodle-bg-overlay">
         <div className="container mx-auto px-6">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -232,7 +234,7 @@ const HomePage: React.FC = () => {
                 transition={{ duration: 0.8, ease: 'easeOut' }}
                 className="text-center"
             >
-                <h2 className="text-3xl md:text-4xl font-playfair font-bold text-text-light mb-6">Ready to plan your offbeat getaway?</h2>
+                <h2 className="text-3xl md:text-4xl font-playfair font-bold text-text-light mb-6">Ready to plan your perfect getaway?</h2>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         to="/contact"
