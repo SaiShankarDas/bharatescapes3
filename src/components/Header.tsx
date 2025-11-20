@@ -8,6 +8,7 @@ const navLinks = [
   { name: 'Tours', to: '/tours' },
   { name: 'Stays', to: '/stays' },
   { name: 'Events', to: '/events' },
+  { name: 'Gallery', to: '/gallery' },
   { name: 'Register', to: '/tour-registration' },
   { name: 'Contact', to: '/contact' },
 ];
@@ -40,7 +41,7 @@ const Header: React.FC = () => {
           <img src="https://iili.io/KpSYT3F.png" alt="Bharatescapes Logo" className="h-14 w-auto" />
         </Link>
         <div>
-          <nav className="hidden md:flex items-center space-x-2">
+          <nav className="hidden md:flex items-center space-x-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.name}
@@ -48,9 +49,9 @@ const Header: React.FC = () => {
                 className={({ isActive }) =>
                   `${navLinkBaseClass} ${
                     isActive
-                      ? 'bg-active-nav-gradient text-white font-medium rounded-[10px] px-[18px] py-[8px] shadow-sm'
+                      ? 'bg-active-nav-gradient text-white font-medium rounded-[10px] px-[14px] py-[8px] shadow-sm'
                       // The color for inactive links is `theme-text-dark` (#2E2E2E)
-                      : 'text-theme-text-dark hover:text-theme-accent-orange-end px-[18px] py-[8px]'
+                      : 'text-theme-text-dark hover:text-theme-accent-orange-end px-[14px] py-[8px]'
                   }`
                 }
               >
