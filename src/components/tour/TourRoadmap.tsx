@@ -5,10 +5,9 @@ import { Tour } from '../../data/toursData';
 
 interface TourRoadmapProps {
   tours: Tour[];
-  onImageClick: (img: string) => void;
 }
 
-const TourRoadmap: React.FC<TourRoadmapProps> = ({ tours = [], onImageClick }) => {
+const TourRoadmap: React.FC<TourRoadmapProps> = ({ tours = [] }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -27,7 +26,7 @@ const TourRoadmap: React.FC<TourRoadmapProps> = ({ tours = [], onImageClick }) =
       
       <div className="relative z-10 space-y-12 md:space-y-0">
         {tours.map((tour, index) => (
-            <TourRoadmapItem key={index} tour={tour} index={index} onImageClick={onImageClick} />
+            <TourRoadmapItem key={index} tour={tour} index={index} />
         ))}
       </div>
     </div>

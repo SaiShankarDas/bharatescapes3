@@ -1,15 +1,13 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Tour } from '../../data/toursData';
-import { Plus } from 'lucide-react';
 
 interface TourRoadmapItemProps {
   tour: Tour;
   index: number;
-  onImageClick: (img: string) => void;
 }
 
-const TourRoadmapItem: React.FC<TourRoadmapItemProps> = ({ tour, index, onImageClick }) => {
+const TourRoadmapItem: React.FC<TourRoadmapItemProps> = ({ tour, index }) => {
   const isEven = index % 2 === 0;
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.4 });
@@ -40,22 +38,14 @@ const TourRoadmapItem: React.FC<TourRoadmapItemProps> = ({ tour, index, onImageC
           animate={isInView ? "visible" : "hidden"}
         >
           <div className="bg-white p-4 md:p-6 rounded-lg shadow-xl border border-black/5">
-            <div 
-              className="relative group cursor-pointer mb-4" 
-              onClick={() => onImageClick(tour.img)}
-            >
+            <div className="relative mb-4">
               <div className="w-full rounded-md overflow-hidden shadow-md">
                 <img 
                   src={tour.img} 
                   alt={tour.title} 
-                  className="w-full aspect-[4/3] object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" 
+                  className="w-full aspect-[4/3] object-cover transition-transform duration-500 ease-in-out hover:scale-105" 
                   loading="lazy" 
                 />
-              </div>
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-md">
-                <div className="p-3 bg-white/80 rounded-full shadow-md transform group-hover:scale-110 transition-transform">
-                  <Plus className="h-6 w-6 text-theme-text-dark" />
-                </div>
               </div>
             </div>
             <h3 className="font-playfair text-xl md:text-2xl font-bold text-theme-text-dark">{tour.title}</h3>
