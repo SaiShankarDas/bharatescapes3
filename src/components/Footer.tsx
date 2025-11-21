@@ -45,15 +45,16 @@ const Footer: React.FC = () => {
             </div>
 
             {/* WhatsApp Community Button */}
-            <div className="flex justify-center md:justify-start mt-8">
+            <div className="flex justify-center md:justify-start mt-6">
               <a 
                 href="https://chat.whatsapp.com/JZw3BkBXC8GDVb4TKtSMzJ?mode=hqrt3"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1"
+                // Updated: Compact width by stacking text, reduced gap/padding to align with icons above
+                className="group inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-1.5 pl-3 pr-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1"
               >
-                <WhatsAppIcon className="w-8 h-8 text-white drop-shadow-sm flex-shrink-0" />
-                <span className="text-lg">Join our WhatsApp Community</span>
+                <WhatsAppIcon className="w-9 h-9 text-white drop-shadow-sm flex-shrink-0" />
+                <span className="text-sm text-left leading-tight">Join our<br/>WhatsApp Community</span>
               </a>
             </div>
           </div>
