@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageTransition from '../components/PageTransition';
 import { motion } from 'framer-motion';
 import { LoaderCircle, CheckCircle, AlertTriangle } from 'lucide-react';
@@ -21,6 +21,17 @@ const ContactPage: React.FC = () => {
   const [feedbackMessage, setFeedbackMessage] = useState('');
 
   const SCRIPT_URL = import.meta.env.VITE_GOOGLE_APP_SCRIPT_URL;
+
+  // Auto-dismiss success message after 10 seconds
+  useEffect(() => {
+    if (submissionStatus === 'success') {
+      const timer = setTimeout(() => {
+        setFeedbackMessage('');
+        setSubmissionStatus('idle');
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [submissionStatus]);
 
   const resetForm = () => {
       setName('');

@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
               <li><Link to="/contact" className="hover:text-theme-accent-orange-end transition-colors text-theme-text-dark/80">Book Now</Link></li>
             </ul>
           </div>
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <h3 className="text-lg font-bold mb-4">Join Our Tribe</h3>
             <div className="flex justify-center md:justify-start space-x-6 items-center">
               <a href="https://www.instagram.com/bharatescapes/" target="_blank" rel="noopener noreferrer" className="text-theme-text-dark/80 hover:text-theme-accent-orange-end transition-all duration-300 hover:scale-110" aria-label="Visit our Instagram">
@@ -50,11 +50,11 @@ const Footer: React.FC = () => {
                 href="https://chat.whatsapp.com/JZw3BkBXC8GDVb4TKtSMzJ?mode=hqrt3"
                 target="_blank"
                 rel="noopener noreferrer"
-                // Updated: Compact width by stacking text, reduced gap/padding to align with icons above
-                className="group inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-1.5 pl-3 pr-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1"
+                // Updated: Compact width, text-xs, smaller gap/padding to align with icons
+                className="group inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-1.5 pl-2.5 pr-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1"
               >
-                <WhatsAppIcon className="w-9 h-9 text-white drop-shadow-sm flex-shrink-0" />
-                <span className="text-sm text-left leading-tight">Join our<br/>WhatsApp Community</span>
+                <WhatsAppIcon className="w-8 h-8 text-white drop-shadow-sm flex-shrink-0" />
+                <span className="text-xs text-left leading-tight tracking-tight">Join our<br/>WhatsApp Community</span>
               </a>
             </div>
           </div>
