@@ -27,7 +27,7 @@ const GallerySection: React.FC<GallerySectionProps> = ({
     <section id={id} className="py-16 border-b border-black/5 last:border-0">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-playfair font-bold text-primary-start mb-3 transition-all duration-500 hover:text-warm-gold-dark hover:drop-shadow-[0_0_15px_rgba(181,98,5,0.3)]">
+          <h2 className="text-3xl md:text-4xl font-playfair font-bold text-dark-bg mb-3 transition-all duration-500 hover:text-warm-wine hover:drop-shadow-[0_0_15px_rgba(178,58,72,0.4)]">
             {title}
           </h2>
           {subtitle && (

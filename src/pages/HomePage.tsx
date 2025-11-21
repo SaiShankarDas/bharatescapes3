@@ -215,7 +215,7 @@ const HomePage: React.FC = () => {
                 className="relative bg-warm-white rounded-lg shadow-xl p-10 md:p-16 text-center overflow-hidden"
             >
                 <div className="relative z-10">
-                    <h3 className="text-xl font-playfair font-bold text-primary-start mb-2 transition-all duration-500 hover:text-warm-gold-dark hover:drop-shadow-[0_0_15px_rgba(181,98,5,0.3)]">Our Story</h3>
+                    <h3 className="text-xl font-playfair font-bold text-dark-bg mb-2 transition-all duration-500 hover:text-warm-wine hover:drop-shadow-[0_0_15px_rgba(178,58,72,0.4)]">Our Story</h3>
                     <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
                         “Born from a passion to share Udaipur’s offbeat charm, Bharatescapes curates soulful experiences blending tradition, comfort, and authenticity.”
                     </p>
