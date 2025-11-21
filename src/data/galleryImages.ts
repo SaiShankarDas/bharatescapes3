@@ -1,5 +1,5 @@
 export const galleryImages = [
-  { src: 'https://iili.io/KZ3h9Vf.jpg', alt: 'Tour 1' },
+  { src: 'https://iili.io/KZrGDZJ.jpg', alt: 'Tour 1' },
   { src: 'https://iili.io/KZ3kKHQ.jpg', alt: 'Tour 2' },
   { src: 'https://iili.io/KZ3r6mv.jpg', alt: 'Tour 3' },
   { src: 'https://iili.io/KZ3LpY7.jpg', alt: 'Tour 4' },
