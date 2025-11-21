@@ -91,13 +91,13 @@ const ContactPage: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-text-light">Get In Touch</h1>
+            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-text-light transition-all duration-500 hover:text-accent-gold hover:drop-shadow-[0_0_15px_rgba(255,199,0,0.3)]">Get In Touch</h1>
             <p className="text-lg md:text-xl text-text-muted max-w-3xl mx-auto mt-4">Have questions or ready to book your escape? Send us a message, and we'll help you craft your perfect Udaipur journey.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-16 items-start">
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
-              <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-6 text-orange-500 transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]">Plan My Escape</h2>
+              <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-6 text-accent-gold transition-all duration-500 hover:drop-shadow-[0_0_15px_rgba(255,199,0,0.3)]">Plan My Escape</h2>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                     <label htmlFor="name" className="text-sm font-bold text-text-muted">Name</label>
@@ -169,7 +169,7 @@ const ContactPage: React.FC = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2 }}>
-                <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-6 text-orange-500 transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]">Find Us in Udaipur</h2>
+                <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-6 text-accent-gold transition-all duration-500 hover:drop-shadow-[0_0_15px_rgba(255,199,0,0.3)]">Find Us in Udaipur</h2>
                 <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-xl border-4 border-white/20">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d116033.55729938061!2d73.6501450431327!3d24.59602493976856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3967e56550a14411%3A0xdbd8c28455b868b0!2sUdaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1678886543210!5m2!1sen!2sin"

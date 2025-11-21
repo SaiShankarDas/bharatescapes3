@@ -18,7 +18,7 @@ const EventsPage: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-text-light">
+            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-text-light transition-all duration-500 hover:text-accent-gold hover:drop-shadow-[0_0_15px_rgba(255,199,0,0.3)]">
               Events that bring people Together
             </h1>
             <p className="text-lg md:text-xl text-text-muted max-w-3xl mx-auto mt-4">

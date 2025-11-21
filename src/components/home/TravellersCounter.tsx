@@ -36,7 +36,7 @@ const TravellersCounter: React.FC = () => {
         </div>
 
         {/* Bottom Line */}
-        <p className="font-playfair text-4xl md:text-5xl font-bold text-text-light/90 leading-tight">
+        <p className="font-playfair text-4xl md:text-5xl font-bold text-text-light leading-tight transition-all duration-500 hover:text-accent-gold hover:drop-shadow-[0_0_15px_rgba(255,199,0,0.3)]">
           travellers explored Udaipur <br className="hidden md:block" />
           with us!
         </p>

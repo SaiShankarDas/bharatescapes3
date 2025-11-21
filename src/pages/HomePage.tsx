@@ -234,7 +234,7 @@ const HomePage: React.FC = () => {
                 transition={{ duration: 0.8, ease: 'easeOut' }}
                 className="text-center"
             >
-                <h2 className="text-3xl md:text-4xl font-playfair font-bold text-text-light mb-6">Ready to plan your perfect getaway?</h2>
+                <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-6 text-text-light transition-all duration-500 hover:text-accent-gold hover:drop-shadow-[0_0_15px_rgba(255,199,0,0.3)]">Ready to plan your perfect getaway?</h2>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         to="/contact"

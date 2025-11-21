@@ -9,7 +9,7 @@ const StaysPage: React.FC = () => {
       <section id="stays" className="pt-32 pb-20 md:pb-28 text-text-light">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.8 }}>
-            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-center mb-4 text-accent-gold">Stay with Bharatescapes</h1>
+            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-center mb-4 text-text-light transition-all duration-500 hover:text-accent-gold hover:drop-shadow-[0_0_15px_rgba(255,199,0,0.3)]">Stay with Bharatescapes</h1>
             <p className="text-lg md:text-xl text-center max-w-3xl mx-auto mb-16">"Where stories begin — stay at the heart of Udaipur’s travel culture. Discover our handpicked accommodations."</p>
           </motion.div>
           
