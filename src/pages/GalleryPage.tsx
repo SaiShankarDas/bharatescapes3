@@ -32,7 +32,7 @@ const GalleryPage: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-theme-text-dark mb-6">
+            <h1 className="text-5xl md:text-6xl font-playfair font-bold text-primary-start mb-6 transition-all duration-500 hover:text-warm-gold-dark hover:drop-shadow-[0_0_15px_rgba(181,98,5,0.3)]">
               Captured Moments
             </h1>
             <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">

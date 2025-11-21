@@ -195,7 +195,8 @@ const TourRegistrationPage: React.FC = () => {
             transition={{ duration: 0.7 }}
             className="text-center mb-12"
           >
-            <h1 className="text-4xl md:text-5xl font-playfair font-bold text-warm-gold-dark">Tour Registration</h1>
+            {/* Updated heading color to text-primary-start and hover to text-warm-gold-dark */}
+            <h1 className="text-4xl md:text-5xl font-playfair font-bold text-primary-start transition-all duration-500 hover:text-warm-gold-dark hover:drop-shadow-[0_0_15px_rgba(181,98,5,0.3)]">Tour Registration</h1>
             <p className="text-lg text-warm-text/70 max-w-2xl mx-auto mt-3">Please review the terms and complete the form to book your adventure.</p>
           </motion.div>
 
@@ -205,7 +206,8 @@ const TourRegistrationPage: React.FC = () => {
             <div className="space-y-4">
               {terms.slice(0, 4).map((term, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <term.icon className="h-6 w-6 text-warm-gold-light flex-shrink-0 mt-1" />
+                  {/* Updated icon color to text-warm-gold-dark */}
+                  <term.icon className="h-6 w-6 text-warm-gold-dark flex-shrink-0 mt-1" />
                   <p className="text-warm-text/80">{term.text}</p>
                 </div>
               ))}
@@ -222,7 +224,8 @@ const TourRegistrationPage: React.FC = () => {
                   <div className="space-y-4">
                     {terms.slice(4).map((term, i) => (
                       <div key={i} className="flex items-start gap-4">
-                        <term.icon className="h-6 w-6 text-warm-gold-light flex-shrink-0 mt-1" />
+                        {/* Updated icon color to text-warm-gold-dark */}
+                        <term.icon className="h-6 w-6 text-warm-gold-dark flex-shrink-0 mt-1" />
                         <p className="text-warm-text/80">{term.text}</p>
                       </div>
                     ))}

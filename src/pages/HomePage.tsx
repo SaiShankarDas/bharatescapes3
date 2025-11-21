@@ -71,7 +71,7 @@ const HomePage: React.FC = () => {
                 transition={{ duration: 0.8, ease: 'easeOut' }}
                 className="text-center max-w-3xl mx-auto"
             >
-                <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-4 text-primary-start transition-all duration-500 hover:text-accent-gold hover:drop-shadow-[0_0_15px_rgba(255,199,0,0.3)]">Your Offbeat Escape Awaits</h2>
+                <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-4 text-primary-start transition-all duration-500 hover:text-warm-gold-dark hover:drop-shadow-[0_0_15px_rgba(181,98,5,0.3)]">Your Offbeat Escape Awaits</h2>
                 <p className="text-lg text-gray-700">Bharatescapes is more than a tour—it's a story. We curate every moment to connect you with the soul of Udaipur, from its majestic palaces to its hidden gems.</p>
             </motion.div>
 
@@ -147,7 +147,7 @@ const HomePage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
-                className="text-4xl md:text-5xl font-playfair font-bold mb-4 text-primary-start transition-all duration-500 hover:drop-shadow-[0_0_20px_rgba(255,199,0,0.4)]"
+                className="text-4xl md:text-5xl font-playfair font-bold mb-4 text-primary-start transition-all duration-500 hover:text-warm-gold-dark hover:drop-shadow-[0_0_15px_rgba(181,98,5,0.3)]"
             >
                 Glimpses of Udaipur
             </motion.h2>
@@ -215,7 +215,7 @@ const HomePage: React.FC = () => {
                 className="relative bg-warm-white rounded-lg shadow-xl p-10 md:p-16 text-center overflow-hidden"
             >
                 <div className="relative z-10">
-                    <h3 className="text-xl font-playfair font-bold text-primary-start mb-2">Our Story</h3>
+                    <h3 className="text-xl font-playfair font-bold text-primary-start mb-2 transition-all duration-500 hover:text-warm-gold-dark hover:drop-shadow-[0_0_15px_rgba(181,98,5,0.3)]">Our Story</h3>
                     <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
                         “Born from a passion to share Udaipur’s offbeat charm, Bharatescapes curates soulful experiences blending tradition, comfort, and authenticity.”
                     </p>
