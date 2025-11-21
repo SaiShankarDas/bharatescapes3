@@ -3,7 +3,7 @@ import PageTransition from '../components/PageTransition';
 import Hero from '../components/Hero';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BedDouble, Map, Castle, Ship, MessageSquare, HeartHandshake, PartyPopper } from 'lucide-react';
+import { ArrowRight, Handshake, Map, Castle, Ship, MessageSquare, HeartHandshake, PartyPopper } from 'lucide-react';
 import DomeGallery from '../components/dome/DomeGallery';
 import { galleryImages } from '../data/galleryImages';
 import WhyChooseCard from '../components/home/WhyChooseCard';
@@ -20,9 +20,9 @@ const summaryData = [
         image: "https://iili.io/KZFB8DG.jpg"
     },
     {
-        icon: BedDouble,
-        title: "Exclusive Stays",
-        description: "Rest in handpicked accommodations that blend offbeat comfort with the heart of local culture.",
+        icon: Handshake,
+        title: "Trusted Partners",
+        description: "We collaborate with the best to bring you authentic stays and experiences rooted in local culture.",
         link: "/stays",
         image: "https://iili.io/KZsWwbV.jpg"
     },
@@ -43,8 +43,8 @@ const whyChooseData = [
     },
     {
         icon: HeartHandshake,
-        title: "Handpicked Stays & Cafés",
-        description: "Every place is chosen for its character, comfort, and connection to local culture."
+        title: "Handpicked Partners",
+        description: "Every partner is chosen for their character, comfort, and connection to local culture."
     },
     {
         icon: Ship,

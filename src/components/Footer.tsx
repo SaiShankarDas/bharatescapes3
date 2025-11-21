@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><Link to="/tours" className="hover:text-theme-accent-orange-end transition-colors text-theme-text-dark/80">Tours</Link></li>
-              <li><Link to="/stays" className="hover:text-theme-accent-orange-end transition-colors text-theme-text-dark/80">Stays</Link></li>
+              <li><Link to="/stays" className="hover:text-theme-accent-orange-end transition-colors text-theme-text-dark/80">Trusted Partners</Link></li>
               <li><Link to="/events" className="hover:text-theme-accent-orange-end transition-colors text-theme-text-dark/80">Events</Link></li>
               <li><Link to="/gallery" className="hover:text-theme-accent-orange-end transition-colors text-theme-text-dark/80">Gallery</Link></li>
               <li><Link to="/contact" className="hover:text-theme-accent-orange-end transition-colors text-theme-text-dark/80">Book Now</Link></li>
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
                 href="https://chat.whatsapp.com/JZw3BkBXC8GDVb4TKtSMzJ?mode=hqrt3"
                 target="_blank"
                 rel="noopener noreferrer"
-                // Updated: Compact width, text-xs, smaller gap/padding to align with icons
+                // Compact width, text-xs, smaller gap/padding to align with icons
                 className="group inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-1.5 pl-2.5 pr-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1"
               >
                 <WhatsAppIcon className="w-8 h-8 text-white drop-shadow-sm flex-shrink-0" />

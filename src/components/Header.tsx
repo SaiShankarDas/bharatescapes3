@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 const navLinks = [
   { name: 'Home', to: '/' },
   { name: 'Tours', to: '/tours' },
-  { name: 'Stays', to: '/stays' },
+  { name: 'Trusted Partners', to: '/stays' },
   { name: 'Events', to: '/events' },
   { name: 'Gallery', to: '/gallery' },
   { name: 'Start Your Trip', to: '/tour-registration' },
@@ -50,7 +50,6 @@ const Header: React.FC = () => {
                   `${navLinkBaseClass} ${
                     isActive
                       ? 'bg-active-nav-gradient text-white font-medium rounded-[10px] px-[14px] py-[8px] shadow-sm'
-                      // The color for inactive links is `theme-text-dark` (#2E2E2E)
                       : 'text-theme-text-dark hover:text-theme-accent-orange-end px-[14px] py-[8px]'
                   }`
                 }
