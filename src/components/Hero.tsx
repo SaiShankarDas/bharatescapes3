@@ -9,7 +9,11 @@ const Hero: React.FC = () => {
     const y = useTransform(scrollYProgress, [0, 0.2], ["0%", "20%"]);
 
   return (
-    <section id="hero" className="relative h-screen w-full overflow-hidden video-overlay">
+    <section 
+      id="hero" 
+      className="relative h-screen w-full overflow-hidden video-overlay bg-cover bg-center bg-no-repeat z-0"
+      style={{ backgroundImage: "url('https://iili.io/KZ3h9Vf.jpg')" }}
+    >
           <video
         autoPlay
         loop

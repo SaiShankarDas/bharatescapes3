@@ -8,7 +8,7 @@ body {
   /* Removed bg-fixed and bg-main-gradient from here to improve scroll performance */
   @apply text-text-light font-poppins antialiased;
   min-height: 100vh;
-  background-color: #0A192F; /* Fallback background color */
+  background-color: #000000; /* Changed from #0A192F to Black to prevent blue flash */
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
