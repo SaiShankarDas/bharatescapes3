@@ -14,7 +14,11 @@ body {
 
 /* New class for the fixed background to replace body bg-fixed */
 .fixed-bg-layer {
-  @apply fixed inset-0 -z-50 bg-main-gradient;
+  @apply fixed inset-0 -z-50;
+  background-image: url('https://iili.io/f2vgILB.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   /* This element stays fixed without forcing body repaints */
   transform: translateZ(0); /* Trigger GPU acceleration */
 }
@@ -75,12 +79,7 @@ html {
   .doodle-bg-overlay {
     @apply relative z-0;
   }
-  .doodle-bg-overlay::before {
-    content: '';
-    @apply absolute inset-0 -z-10 bg-doodle-pattern bg-repeat bg-center bg-scroll md:bg-fixed bg-blend-overlay;
-    background-size: 500px auto;
-    opacity: 0.12;
-  }
+  /* Doodle pattern removed */
 }
 
 /* Utility for performance */
