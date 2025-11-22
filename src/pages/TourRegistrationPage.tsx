@@ -277,8 +277,8 @@ const TourRegistrationPage: React.FC = () => {
                   <PhoneInput required international defaultCountry="IN" value={mobileNumber} onChange={setMobileNumber} className={`phone-input-container mt-1 warm-theme`} />
                 </div>
                 <div>
-                  <label className={labelClasses}>Email ID*</label>
-                  <input type="email" required value={email} onChange={e => setEmail(e.target.value)} className={inputClasses} />
+                  <label className={labelClasses}>Email ID (Optional)</label>
+                  <input type="email" value={email} onChange={e => setEmail(e.target.value)} className={inputClasses} />
                 </div>
                 <div className="md:col-span-2">
                   <label className={labelClasses}>City / Country</label>
