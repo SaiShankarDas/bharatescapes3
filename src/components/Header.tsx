@@ -6,10 +6,10 @@ import { motion } from 'framer-motion';
 const navLinks = [
   { name: 'Home', to: '/' },
   { name: 'Tours', to: '/tours' },
-  { name: 'Trusted Partners', to: '/stays' },
   { name: 'Events', to: '/events' },
   { name: 'Gallery', to: '/gallery' },
   { name: 'Start Your Trip', to: '/tour-registration' },
+  { name: 'Trusted Partners', to: '/stays' },
   { name: 'Book Now', to: '/contact' },
 ];
 

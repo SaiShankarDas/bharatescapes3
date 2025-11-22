@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Mail, Phone } from 'lucide-react';
+import { Instagram, Mail, Phone, Camera } from 'lucide-react';
 import WhatsAppIcon from './common/WhatsAppIcon';
 
 const Footer: React.FC = () => {
@@ -44,17 +44,28 @@ const Footer: React.FC = () => {
               </a>
             </div>
 
-            {/* WhatsApp Community Button */}
-            <div className="flex justify-center md:justify-start mt-6">
+            {/* Action Buttons */}
+            <div className="flex flex-col items-center md:items-start gap-3 mt-6">
+              {/* WhatsApp Community Button */}
               <a 
                 href="https://chat.whatsapp.com/JZw3BkBXC8GDVb4TKtSMzJ?mode=hqrt3"
                 target="_blank"
                 rel="noopener noreferrer"
-                // Compact width, text-xs, smaller gap/padding to align with icons
-                className="group inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-1.5 pl-2.5 pr-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1"
+                className="group inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-2 px-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 w-[210px]"
               >
                 <WhatsAppIcon className="w-8 h-8 text-white drop-shadow-sm flex-shrink-0" />
                 <span className="text-xs text-left leading-tight tracking-tight">Join our<br/>WhatsApp Community</span>
+              </a>
+
+              {/* Get Your Photos Button */}
+              <a 
+                href="#" // Placeholder link - please update with actual URL
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 bg-[#4285F4] hover:bg-[#3367d6] text-white font-semibold py-2 px-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 w-[210px]"
+              >
+                <Camera className="w-8 h-8 text-white drop-shadow-sm flex-shrink-0" />
+                <span className="text-xs text-left leading-tight tracking-tight">Get Your<br/>Photos</span>
               </a>
             </div>
           </div>
